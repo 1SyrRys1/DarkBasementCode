@@ -1,0 +1,42 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class SpeedBar : MonoBehaviour
+{
+    [SerializeField] private GameObject speedBar;
+
+    [SerializeField] private Slider Bar;
+    [SerializeField] private Text hintStamina;
+
+    [SerializeField] private float timeBar = 3f;
+    [SerializeField] private float restBar = 3f;
+    // Start is called before the first frame update
+    void Start()
+    {
+        speedBar.SetActive(false);
+        hintStamina.enabled = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Bar.value >= 0 && Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        {
+            PlayerMovement.speed = 12f;
+            speedBar.SetActive(true);
+            Bar.value -= Time.deltaTime * 0.2f;
+            if(Bar.value == 0) 
+            {
+                PlayerMovement.speed = 4f;
+                hintStamina.enabled = true;
+            }
+        }
+        else
+        {
+            hintStamina.enabled = false;
+            speedBar.SetActive(false);
+            PlayerMovement.speed = 7f;
+            Bar.value += Time.deltaTime * 0.2f;
+        }
+    }
+}
